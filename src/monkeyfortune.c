@@ -8,9 +8,9 @@
 int main(){
 	FILE *quotefp = fopen("monkeytype-quotes/english.json", "r");
 	if (quotefp == NULL) { 
-        printf("Error: Unable to open the file.\n"); 
-        return 1; 
-    }
+		printf("Error: Unable to open the file.\n");
+		return 1; 
+   	}
 
 	//fseek(quotefp, 0, SEEK_END);
 	//unsigned long long file_size = ftell(quotefp);
@@ -19,20 +19,20 @@ int main(){
 	// read contents from file
 	char *buffer = (char *)malloc(1 << 23); // 2^23 should be big enough to store this file forever.
 	                                        // either way i'm not making that optimization rn
-    unsigned long long len = fread(buffer, 1, 1 << 23, quotefp);
-    fclose(quotefp); 
+	unsigned long long len = fread(buffer, 1, 1 << 23, quotefp);
+	fclose(quotefp); 
 
 	/* grab random quote from file and output */
  	cJSON *json = cJSON_Parse(buffer); 	
 	free(buffer); // should probably be able to free the buffer atp. delete this comment later
-    if (json == NULL) { 
-        const char *error_ptr = cJSON_GetErrorPtr(); 
-        if (error_ptr != NULL) { 
-            printf("Error: %s\n", error_ptr); 
-        } 
-        cJSON_Delete(json); 
-        return 1; 
-    } 
+	if (json == NULL) { 
+		const char *error_ptr = cJSON_GetErrorPtr(); 
+		if (error_ptr != NULL) { 
+			printf("Error: %s\n", error_ptr); // what the hell did i write 3 months ago
+		} 
+		cJSON_Delete(json); 
+		return 1; 
+	} 
 
 	cJSON *quotes = cJSON_GetObjectItemCaseSensitive(json, "quotes");
 	char** quote_text = (char **)malloc((len+1) * sizeof(char *));
@@ -57,8 +57,8 @@ int main(){
 	// printf("%d\n", ridx);
 	printf("\"%s\"\n\t-%s\n", quote_text[ridx], author_info[ridx]);
 
-    // delete the JSON object and free ya shit
-    cJSON_Delete(json); 
+	// delete the JSON object and free ya shit
+	cJSON_Delete(json); 
 	free(quote_text);
 	free(author_info);
 	return 0; 
