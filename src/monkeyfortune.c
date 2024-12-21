@@ -39,7 +39,6 @@ int main(){
 	char** author_info = (char **)malloc((len+1) * sizeof(char *));
 	int nq = 0;
 	if (cJSON_IsArray(quotes)){
-		printf("Quotes:\n");
 		cJSON *quote_obj;
 		cJSON_ArrayForEach(quote_obj, quotes){
 			// wtf is error checking
@@ -47,7 +46,6 @@ int main(){
 			char* source = cJSON_GetObjectItemCaseSensitive(quote_obj, "source")->valuestring;
 			quote_text[nq] = text;
 			author_info[nq] = source;
-			// printf("\"%s\"\n\t-%s\n\n", text, source);
 			nq++;
 		}
 	}
