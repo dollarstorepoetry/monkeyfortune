@@ -1,3 +1,3 @@
 [submodule "cJSON"]
-	path = cJSON
+	path = lib/cJSON
 	url = ssh://git@github.com/DaveGamble/cJSON
