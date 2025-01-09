@@ -5,32 +5,34 @@
 #include <libgen.h> // for getting the directory
 #include <unistd.h> // for getting the directory
 #include <string.h> // strcat
+#include <errno.h>
 
-void get_binary_directory(char *buffer, size_t size) {
-    char path[1024];
-    ssize_t len = readlink("/proc/self/exe", path, sizeof(path) - 1);
+// void get_binary_directory(char *buffer, size_t size) {
+// 	char path[1024];
+//     ssize_t len = readlink("/proc/self/exe", path, sizeof(path) - 1);
 
-    if (len == -1) {
-        fprintf(stderr, "readlink ???");
-        exit(1);
-    }
+//     if (len == -1) {
+//         fprintf(stderr, "readlink ???");
+//         exit(1);
+//     }
 
-    path[len] = '\0'; // Null-terminate the path
+//     path[len] = '\0'; // Null-terminate the path
 
-    // Extract the directory using dirname
-    char *dir = dirname(path);
-    snprintf(buffer, size, "%s", dir);
-}
+//     // Extract the directory using dirname
+//     char *dir = dirname(path);
+//     snprintf(buffer, size, "%s", dir);
+// }
 
 int main(){
-	char dir[1024];
-	get_binary_directory(dir, sizeof(dir));
+	//char dir[1024];
+	// get_binary_directory(dir, sizeof(dir));
 	// FILE *quotefp = fopen("monkeytype-quotes/english.json", "r");
-	FILE *quotefp = fopen(strcat(dir, "/monkeytype-quotes/english.json"), "r");
+	// FILE *quotefp = fopen(strcat(dir, "/monkeytype-quotes/english.json"), "r");
+	FILE* quotefp = fopen("/usr/share/monkeyfortune/english.json", "r");
 	// TODO: make this directory-agnostic ???? idk that makes me sound smart
 	// TODO: make this work with windows (although who's using this on windows tbh)
 	if (quotefp == NULL) { 
-		printf("Error: Unable to open the file.\n");
+		printf("Error: Unable to open the file: %s\n", strerror(errno));
 		return 1; 
    	}
 
