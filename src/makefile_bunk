@@ -2,8 +2,7 @@ all: copy_quotes install
 
 # Compiler and flags
 CC = gcc
-CFLAGS = -g -Wall -I/usr/include/cjson
-LIBS = -lcjson
+CFLAGS = -g -I../lib/cJSON -Wall
 
 # Source files
 MONKEYFORTUNE_SRC = monkeyfortune.c
@@ -20,8 +19,8 @@ copy_quotes:
 	@sudo install -Dm755 $(QUOTE_SRC_DIR)/* $(QUOTE_TARGET_DIR)
 
 # Build the target
-$(TARGET): $(MONKEYFORTUNE_SRC)
-	$(CC) $(CFLAGS) $(MONKEYFORTUNE_SRC) -o $(TARGET) $(LIBS)
+$(TARGET): $(MONKEYFORTUNE_SRC) $(CJSON_SRC)
+	$(CC) $(CFLAGS) $(MONKEYFORTUNE_SRC) $(CJSON_SRC) -o $(TARGET)
 
 install: $(TARGET)
 	sudo install $(TARGET) $(INSTALL_TARGET)
